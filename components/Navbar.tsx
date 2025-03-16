@@ -5,8 +5,7 @@ import { useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation"
 import { Button } from "./ui/button";
-// import { SettingsModal } from "./SettingsModal";
-
+import { SettingsModal } from "./SettingsModal";
 export default function Navbar() {
 
     const pathname = usePathname();
@@ -44,7 +43,7 @@ export default function Navbar() {
                             >
                                 Ideas
                             </Link>
-                            {/* <SettingsModal /> */}
+                            <SettingsModal />
                             <UserButton
                             appearance={{
                             elements: {

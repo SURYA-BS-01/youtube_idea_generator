@@ -2,6 +2,7 @@ import {Lato } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/ui/sonner";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -25,6 +26,7 @@ export default function RootLayout({
           <Navbar />
           {children}
           </div>
+          <Toaster />
       </body>
     </html>
     </ClerkProvider>
