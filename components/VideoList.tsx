@@ -9,6 +9,7 @@ import { formatCount } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
+import { scrapeVideos } from "@/server/youtube-actions";
 
 
 export default function VideoList({
@@ -22,11 +23,11 @@ export default function VideoList({
     const handleScrape = async () => {
         setIsScraping(true);
         try {
-            // const newVideos = await scrapeVideos();
-            // setVideos((prevVideos => [...prevVideos, ...newVideos]));
+            const newVideos = await scrapeVideos();
+            setVideos((prevVideos => [...prevVideos, ...newVideos]));
             toast(
                 "Scrape Successful",{
-                // description: `Scraped ${newVideos.length} new videos`,
+                description: `Scraped ${newVideos.length} new videos`,
               });
         } catch (error) {
             

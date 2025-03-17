@@ -1,13 +1,3 @@
-// import { integer, pgTable, serial, text } from 'drizzle-orm/pg-core';
-
-// export const usersTable = pgTable('users_table', {
-//   id: serial('id').primaryKey(),
-//   name: text('name').notNull(),
-//   age: integer('age').notNull(),
-//   email: text('email').notNull().unique(),
-// });
-
-
 import { relations } from "drizzle-orm";
 import {
   integer,
@@ -59,43 +49,40 @@ export const VideoComments = pgTable("video_comments", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-// export const Ideas = pgTable("ideas", {
-//   id: uuid("id").defaultRandom().primaryKey(),
-//   userId: varchar("user_id", { length: 50 }).notNull(),
-//   videoId: uuid("video_id")
-//     .notNull()
-//     .references(() => Videos.id),
-//   commentId: uuid("comment_id")
-//     .notNull()
-//     .references(() => VideoComments.id),
-//   score: integer("score").default(0),
-//   videoTitle: text("video_title").notNull(),
-//   description: text("description").notNull(),
-//   research: text("research").array().notNull(), // List of URLs
-//   createdAt: timestamp("created_at").defaultNow().notNull(),
-//   updatedAt: timestamp("updated_at").defaultNow().notNull(),
-// });
+export const Ideas = pgTable("ideas", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: varchar("user_id", { length: 50 }).notNull(),
+  videoId: uuid("video_id")
+    .notNull()
+    .references(() => Videos.id),
+  commentId: uuid("comment_id")
+    .notNull()
+    .references(() => VideoComments.id),
+  score: integer("score").default(0),
+  videoTitle: text("video_title").notNull(),
+  description: text("description").notNull(),
+  research: text("research").array().notNull(), // List of URLs
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
 
-// export const CrewJobs = pgTable("crew_jobs", {
-//   id: uuid("id").defaultRandom().primaryKey(),
-//   userId: varchar("user_id", { length: 50 }).notNull(),
-//   kickoffId: text("kickoff_id").notNull(),
-//   jobState: text("job_state").notNull().default("RUNNING"),
-//   jobResult: text("job_result"),
-//   processed: boolean("processed").default(false),
-//   createdAt: timestamp("created_at").defaultNow().notNull(),
-//   updatedAt: timestamp("updated_at").defaultNow().notNull(),
-// });
+export const CrewJobs = pgTable("crew_jobs", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: varchar("user_id", { length: 50 }).notNull(),
+  kickoffId: text("kickoff_id").notNull(),
+  jobState: text("job_state").notNull().default("RUNNING"),
+  jobResult: text("job_result"),
+  processed: boolean("processed").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
 
 // Define relationships
-
-// One video <-> Many comments
 export const VideoRelations = relations(Videos, ({ many }) => ({
   comments: many(VideoComments),
-//   ideas: many(Ideas),
+  ideas: many(Ideas),
 }));
 
-// One comment <-> One video
 export const VideoCommentRelations = relations(VideoComments, ({ one }) => ({
   video: one(Videos, {
     fields: [VideoComments.videoId],
@@ -103,25 +90,25 @@ export const VideoCommentRelations = relations(VideoComments, ({ one }) => ({
   }),
 }));
 
-// export const IdeaRelations = relations(Ideas, ({ one }) => ({
-//   video: one(Videos, {
-//     fields: [Ideas.videoId],
-//     references: [Videos.id],
-//   }),
-//   comment: one(VideoComments, {
-//     fields: [Ideas.commentId],
-//     references: [VideoComments.id],
-//   }),
-// }));
+export const IdeaRelations = relations(Ideas, ({ one }) => ({
+  video: one(Videos, {
+    fields: [Ideas.videoId],
+    references: [Videos.id],
+  }),
+  comment: one(VideoComments, {
+    fields: [Ideas.commentId],
+    references: [VideoComments.id],
+  }),
+}));
 
-// // Types
+// Types
 export type Video = typeof Videos.$inferSelect;
 export type InsertVideo = typeof Videos.$inferInsert;
 export type YouTubeChannelType = typeof YouTubeChannels.$inferSelect;
 export type InsertYouTubeChannel = typeof YouTubeChannels.$inferInsert;
 export type VideoComment = typeof VideoComments.$inferSelect;
 export type InsertVideoComment = typeof VideoComments.$inferInsert;
-// export type Idea = typeof Ideas.$inferSelect;
-// export type InsertIdea = typeof Ideas.$inferInsert;
-// export type CrewJob = typeof CrewJobs.$inferSelect;
-// export type InsertCrewJob = typeof CrewJobs.$inferInsert;
+export type Idea = typeof Ideas.$inferSelect;
+export type InsertIdea = typeof Ideas.$inferInsert;
+export type CrewJob = typeof CrewJobs.$inferSelect;
+export type InsertCrewJob = typeof CrewJobs.$inferInsert;
